@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, assertInInjectionContext, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { RouterOutlet } from '@angular/router';
+import { PokemonComponent } from './pokemons/pokemon/pokemon.component';
 
 function setTitle() {
   assertInInjectionContext(setTitle);
@@ -12,8 +12,13 @@ function setTitle() {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: `test`,
+  imports: [PokemonComponent],
+  template: `
+    <div>
+      <app-pokemon [id]="25" [backgroundColor]="'blue'" [exclaimText]="'red'" />
+      <app-pokemon [id]="52" [backgroundColor]="'yellow'" [exclaimText]="'green'" />
+    </div>
+  `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
