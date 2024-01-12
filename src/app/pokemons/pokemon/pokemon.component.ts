@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Injector, OnInit, computed, effect, inject, signal, ɵinput } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, computed, effect, inject, signal, ɵinput } from '@angular/core';
 
 type PokemonType = { 
   id: number; 
