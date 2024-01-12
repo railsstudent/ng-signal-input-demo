@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Injector, OnInit, Signal, computed, inject, runInInjectionContext, ɵinput } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, computed, effect, inject, signal, ɵinput } from '@angular/core';
 
 type PokemonType = { 
   id: number; 
@@ -15,8 +14,7 @@ const URL = `https://pokeapi.co/api/v2/pokemon`;
   standalone: true,
   imports: [],
   template: `
-    <p>Pokemon id: {{ id() }}</p>
-    <p>Next Pokemon id: {{ nextId() }}</p>
+    <p>Pokemon id: {{ id() }}, Next Pokemon id: {{ nextId() }}</p>
     <p>Background color: {{ bgColor() }}</p>
     <p>Text: {{ text() }}</p>
 
@@ -29,14 +27,16 @@ const URL = `https://pokeapi.co/api/v2/pokemon`;
       <p>Pokemon id: {{ pokemon.id }}, name: {{ pokemon.name }}</p>
       <img [src]="pokemon.sprites['front_shiny'] || ''" />
     }
+
+    <hr />
 `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PokemonComponent implements OnInit {
+export class PokemonComponent {
   id = ɵinput.required<number>();
-  bgColor = ɵinput<string>('', { alias: 'backgroundColor' });
-  text = ɵinput(undefined, {
+  bgColor = ɵinput<string>('white', { alias: 'backgroundColor' });
+  text = ɵinput('not working', {
     alias: 'exclaimText',
     transform: (v: string) => `transformed ${v}`,
   });
@@ -46,18 +46,21 @@ export class PokemonComponent implements OnInit {
   httpClient = inject(HttpClient);
   injector = inject(Injector);
 
-  pokemon!: Signal<PokemonType | undefined>;
-  nextPokemon!: Signal<PokemonType | undefined>;
+  pokemon = signal<PokemonType | undefined>(undefined);
+  nextPokemon = signal<PokemonType | undefined>(undefined);
 
-  ngOnInit(): void {
-    runInInjectionContext(this.injector, () => {
-      const httpClient = inject(HttpClient);
-      this.pokemon =  
-        toSignal(httpClient.get<PokemonType>(`${URL}/${this.id()}/`), { initialValue: undefined })
-      ;
-      this.nextPokemon = 
-        toSignal(httpClient.get<PokemonType>(`${URL}/${this.nextId()}/`), { initialValue: undefined });  
+  constructor() {
+    effect((onCleanup) => {
+      const subscription = this.httpClient.get<PokemonType>(`${URL}/${this.id()}/`)
+        .subscribe((pokemon) => this.pokemon.set(pokemon));
+
+      const subscription2 = this.httpClient.get<PokemonType>(`${URL}/${this.nextId()}/`)
+        .subscribe((pokemon) => this.nextPokemon.set(pokemon));
+
+      onCleanup(() => {
+        subscription.unsubscribe();
+        subscription2.unsubscribe();
+      });
     });
   }
-
 }
