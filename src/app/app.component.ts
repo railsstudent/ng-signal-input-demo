@@ -1,23 +1,21 @@
-import { ChangeDetectionStrategy, Component, assertInInjectionContext, inject } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { PokemonComponent } from './pokemons/pokemon/pokemon.component';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
-
-function setTitle() {
-  assertInInjectionContext(setTitle);
-
-  const title = inject(Title);
-  title.setTitle('Ng Signal Input Demo');
-}
+import { setTitle } from '../title.util';
+import { PokemonComponent } from './pokemons/pokemon/pokemon.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [PokemonComponent, RouterOutlet, RouterLink],
+  imports: [PokemonComponent, RouterOutlet, RouterLink, FormsModule],
   template: `
     <div>
-      <app-pokemon [id]="25" backgroundColor="cyan" [exclaimText]="'red'" />
-      <app-pokemon [id]="52" backgroundColor="yellow" [exclaimText]="'green'" />
+      <label for="size">
+        <span>Size: </span>
+        <input type="number" id="size" name="size" [ngModel]="size()" (ngModelChange)="size.set($event)" min="8" />
+      </label>
+      <app-pokemon [id]="25" backgroundColor="cyan" [exclaimText]="'red'" [size]="size()" />
+      <app-pokemon [id]="52" backgroundColor="yellow" [exclaimText]="'green'" [size]="size()" />
     </div>
     <h2>Signal inputs with route data</h2>
     <ul>
@@ -34,6 +32,8 @@ function setTitle() {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  size = signal(16);
+
   constructor() {
     setTitle();
   }

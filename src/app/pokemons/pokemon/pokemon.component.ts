@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, signal, ɵinput } from '@angular/core';
+import { FontSizeDirective } from '../directives/font-size.directive';
 import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
 import { PokemonType } from '../types/pokemon.type';
 import { getPokemonFn } from '../utils/get-pokemon.util';
@@ -7,6 +8,12 @@ import { getPokemonFn } from '../utils/get-pokemon.util';
   selector: 'app-pokemon',
   standalone: true,
   imports: [PokemonCardComponent],
+  hostDirectives: [
+    {
+      directive: FontSizeDirective,
+      inputs: ['size'],
+    }
+  ],
   template: `
     <p>Pokemon id: {{ id() }}, Next Pokemon id: {{ nextId() }}</p>
     <p [style.background]="bgColor()">Background color: {{ bgColor() }}</p>
