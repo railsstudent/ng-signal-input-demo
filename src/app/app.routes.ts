@@ -6,7 +6,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pokemons/pokemon/pokemon.component').then((m) => m.PokemonComponent),
         data: {
             id: 17,
-            backgroundColor: 'rebeccapurple',
+            backgroundColor: 'magenta',
         }
     },
     {

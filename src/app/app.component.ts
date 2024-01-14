@@ -16,17 +16,21 @@ function setTitle() {
   imports: [PokemonComponent, RouterOutlet, RouterLink],
   template: `
     <div>
-      <app-pokemon [id]="1" [backgroundColor]="'blue'" [exclaimText]="'red'" />
-      <app-pokemon [id]="52" [backgroundColor]="'yellow'" [exclaimText]="'green'" />
+      <app-pokemon [id]="25" backgroundColor="cyan" [exclaimText]="'red'" />
+      <app-pokemon [id]="52" backgroundColor="yellow" [exclaimText]="'green'" />
     </div>
     <h2>Signal inputs with route data</h2>
     <ul>
-      <li><a alt="bulbasaur" [routerLink]="['/pokemons/bulbasaur']">bulbasaur</a></li>
-      <li><a alt="pidgeotto" [routerLink]="['/pokemons/pidgeotto']">pidgeotto</a></li>
+      <li><a [routerLink]="['/pokemons/bulbasaur']">bulbasaur</a></li>
+      <li><a [routerLink]="['/pokemons/pidgeotto']">pidgeotto</a></li>
     </ul>
     <router-outlet />
   `,
-  styles: ``,
+  styles: `
+    h2, ul {
+      margin: 0.5rem;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
