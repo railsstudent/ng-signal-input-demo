@@ -1,63 +1,65 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Injector, OnInit, Signal, computed, inject, runInInjectionContext, ɵinput } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-
-type PokemonType = { 
-  id: number; 
-  name: string;
-  sprites: { [key: string]: string };
-}
-
-const URL = `https://pokeapi.co/api/v2/pokemon`;
+import { ChangeDetectionStrategy, Component, computed, effect, signal, ɵinput } from '@angular/core';
+import { FontSizeDirective } from '../directives/font-size.directive';
+import { PokemonCardComponent } from '../pokemon-card/pokemon-card.component';
+import { PokemonType } from '../types/pokemon.type';
+import { getPokemonFn } from '../utils/get-pokemon.util';
 
 @Component({
   selector: 'app-pokemon',
   standalone: true,
-  imports: [],
+  imports: [PokemonCardComponent],
+  hostDirectives: [
+    {
+      directive: FontSizeDirective,
+      inputs: ['size'],
+    }
+  ],
   template: `
-    <p>Pokemon id: {{ id() }}</p>
-    <p>Next Pokemon id: {{ nextId() }}</p>
-    <p>Background color: {{ bgColor() }}</p>
+    <p>Pokemon id: {{ id() }}, Next Pokemon id: {{ nextId() }}</p>
+    <p [style.background]="bgColor()">Background color: {{ bgColor() }}</p>
     <p>Text: {{ text() }}</p>
 
-    @if (pokemon(); as pokemon) {
-      <p>Pokemon id: {{ pokemon.id }}, name: {{ pokemon.name }}</p>
-      <img [src]="pokemon.sprites['front_shiny'] || ''" />
-    }
+    <div class="container">
+      @if (pokemon(); as pokemon) {
+        <app-pokemon-card [pokemon]="pokemon" />
+      }
 
-    @if (nextPokemon(); as pokemon) {
-      <p>Pokemon id: {{ pokemon.id }}, name: {{ pokemon.name }}</p>
-      <img [src]="pokemon.sprites['front_shiny'] || ''" />
+      @if (nextPokemon(); as pokemon) {
+        <app-pokemon-card [pokemon]="pokemon" />
+      }
+    </div>
+    <hr />
+  `,
+  styles: `
+    div.container {
+      display: flex;
     }
-`,
-  styles: ``,
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PokemonComponent implements OnInit {
+export class PokemonComponent {
   id = ɵinput.required<number>();
-  bgColor = ɵinput<string>('', { alias: 'backgroundColor' });
-  text = ɵinput(undefined, {
-    alias: 'exclaimText',
+  bgColor = ɵinput<string>('cyan', { alias: 'backgroundColor' });
+  text = ɵinput('not working', {
+    alias: 'transformedText',
     transform: (v: string) => `transformed ${v}`,
   });
 
   nextId = computed(() => this.id() + 1);
+  getPokemon = getPokemonFn();
 
-  httpClient = inject(HttpClient);
-  injector = inject(Injector);
+  pokemon = signal<PokemonType | undefined>(undefined);
+  nextPokemon = signal<PokemonType | undefined>(undefined);
 
-  pokemon!: Signal<PokemonType | undefined>;
-  nextPokemon!: Signal<PokemonType | undefined>;
-
-  ngOnInit(): void {
-    runInInjectionContext(this.injector, () => {
-      const httpClient = inject(HttpClient);
-      this.pokemon =  
-        toSignal(httpClient.get<PokemonType>(`${URL}/${this.id()}/`), { initialValue: undefined })
-      ;
-      this.nextPokemon = 
-        toSignal(httpClient.get<PokemonType>(`${URL}/${this.nextId()}/`), { initialValue: undefined });  
+  constructor() {
+    effect((onCleanup) => {
+      const subscription = this.getPokemon(this.id()).subscribe((pokemon) => this.pokemon.set(pokemon));
+      const subscription2 = this.getPokemon(this.nextId()).subscribe((pokemon) => this.nextPokemon.set(pokemon));
+ 
+      onCleanup(() => {
+        subscription.unsubscribe();
+        subscription2.unsubscribe();
+      });
     });
   }
-
 }
