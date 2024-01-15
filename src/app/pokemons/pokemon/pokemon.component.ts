@@ -29,7 +29,7 @@ import { getPokemonFn } from '../utils/get-pokemon.util';
       }
     </div>
     <hr />
-`,
+  `,
   styles: `
     div.container {
       display: flex;
@@ -41,7 +41,7 @@ export class PokemonComponent {
   id = ɵinput.required<number>();
   bgColor = ɵinput<string>('cyan', { alias: 'backgroundColor' });
   text = ɵinput('not working', {
-    alias: 'exclaimText',
+    alias: 'transformedText',
     transform: (v: string) => `transformed ${v}`,
   });
 

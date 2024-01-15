@@ -14,19 +14,29 @@ import { PokemonComponent } from './pokemons/pokemon/pokemon.component';
         <span>Size: </span>
         <input type="number" id="size" name="size" [ngModel]="size()" (ngModelChange)="size.set($event)" min="8" />
       </label>
-      <app-pokemon [id]="25" backgroundColor="cyan" [exclaimText]="'red'" [size]="size()" />
-      <app-pokemon [id]="52" backgroundColor="yellow" [exclaimText]="'green'" [size]="size()" />
+      <app-pokemon [id]="25" backgroundColor="cyan" transformedText="red" [size]="size()" />
+      <app-pokemon [id]="52" backgroundColor="yellow" transformedText="green" [size]="size()" />
     </div>
     <h2>Signal inputs with route data</h2>
     <ul>
       <li><a [routerLink]="['/pokemons/bulbasaur']">bulbasaur</a></li>
       <li><a [routerLink]="['/pokemons/pidgeotto']">pidgeotto</a></li>
+      <li><a [routerLink]="['/pokemons/ponyta']">ponyta</a></li>
     </ul>
     <router-outlet />
   `,
   styles: `
     h2, ul {
       margin: 0.5rem;
+    }
+
+    ul {
+      display: flex;
+    }
+
+    ul > li {
+      list-style-type: none;
+      margin-right: 1rem;
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
