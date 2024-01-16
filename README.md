@@ -1,6 +1,9 @@
 # NgSignalInputDemo
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.0-rc.0.
+
+Gitlab Page: https://railsstudent.github.io/ng-signal-input-demo/
+
 Example
 - required signal input
 - signal input with initial value
