@@ -1,6 +1,14 @@
 # NgSignalInputDemo
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.0-rc.0.
+Example
+- required signal input
+- signal input with initial value
+- transformed signal input
+- call signal input + API in effect()
+- signal input + withComponentInputBinding
+- signal input + computed signals + host property in directive
+- computed signals based on signal inputs
 
 ## Development server
 
