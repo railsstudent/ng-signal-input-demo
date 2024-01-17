@@ -6,12 +6,13 @@ Gitlab Page: https://railsstudent.github.io/ng-signal-input-demo/
 
 Example
 - required signal input
+- computed signals based on signal inputs
 - signal input with initial value
 - transformed signal input
 - call signal input + API in effect()
 - signal input + withComponentInputBinding
 - signal input + computed signals + host property in directive
-- computed signals based on signal inputs
+- signal input + RxJS interop
 
 ## Development server
 
