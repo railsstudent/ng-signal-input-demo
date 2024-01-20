@@ -1,4 +1,4 @@
-import { Directive, computed, ɵinput } from '@angular/core';
+import { Directive, computed, input } from '@angular/core';
 
 @Directive({
   selector: '[appFontSize]',
@@ -11,7 +11,7 @@ import { Directive, computed, ɵinput } from '@angular/core';
   }
 })
 export class FontSizeDirective {
-  size = ɵinput(14);
+  size = input(14);
   shouldDoStyling = computed(() => this.size() > 20 && this.size() <= 36);
   fontWeight = computed(() => this.shouldDoStyling() ? 'bold' : 'normal');
   fontStyle = computed(() => this.shouldDoStyling() ? 'italic' : 'normal');

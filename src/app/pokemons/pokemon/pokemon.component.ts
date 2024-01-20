@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, signal, ɵinput } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { combineLatestWith, interval, map, switchMap, take } from 'rxjs';
 import { FontSizeDirective } from '../directives/font-size.directive';
@@ -43,9 +43,9 @@ import { getPokemonFn } from '../utils/get-pokemon.util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokemonComponent {
-  id = ɵinput.required<number>();
-  bgColor = ɵinput<string>('cyan', { alias: 'backgroundColor' });
-  text = ɵinput('not working', {
+  id = input.required<number>();
+  bgColor = input<string>('cyan', { alias: 'backgroundColor' });
+  text = input('not working', {
     alias: 'transformedText',
     transform: (v: string) => `transformed ${v}`,
   });
