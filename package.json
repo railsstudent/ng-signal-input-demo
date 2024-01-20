@@ -10,17 +10,17 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "angular/animations-builds",
-    "@angular/common": "angular/common-builds",
-    "@angular/compiler": "angular/compiler-builds",
-    "@angular/core": "angular/core-builds",
-    "@angular/forms": "angular/forms-builds",
-    "@angular/platform-browser": "angular/platform-browser-builds",
-    "@angular/platform-browser-dynamic": "angular/platform-browser-dynamic-builds",
-    "@angular/router": "angular/router-builds",
-    "rxjs": "~7.8.0",
+    "@angular/animations": "17.1.0",
+    "@angular/common": "17.1.0",
+    "@angular/compiler": "17.1.0",
+    "@angular/core": "17.1.0",
+    "@angular/forms": "17.1.0",
+    "@angular/platform-browser": "17.1.0",
+    "@angular/platform-browser-dynamic": "17.1.0",
+    "@angular/router": "17.1.0",
+    "rxjs": "~7.8.1",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.2"
+    "zone.js": "~0.14.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.1.0",

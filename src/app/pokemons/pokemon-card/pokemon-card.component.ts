@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ɵinput } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { PokemonType } from '../types/pokemon.type';
 
 @Component({
@@ -13,5 +13,5 @@ import { PokemonType } from '../types/pokemon.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokemonCardComponent {
-  pokemon = ɵinput.required<PokemonType>();
+  pokemon = input.required<PokemonType>();
 }
